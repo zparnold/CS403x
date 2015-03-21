@@ -4,5 +4,6 @@
     <string name="app_name">Screen2</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="header_logo">Header Logo</string>
 
 </resources>
