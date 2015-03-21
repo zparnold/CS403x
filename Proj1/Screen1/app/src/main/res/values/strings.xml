@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Screen1</string>
     <string name="login_heading">Login to Project Awesome\'s Page</string>
+    <string name="login_successful">Login Success!!</string>
 </resources>
