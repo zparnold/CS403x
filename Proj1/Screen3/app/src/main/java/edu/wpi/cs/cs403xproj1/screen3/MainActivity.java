@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.webkit.WebView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -46,6 +47,22 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadGoogleWebview(View view){
+        WebView web = (WebView) findViewById(R.id.webView);
+        web.getSettings().setJavaScriptEnabled(true);
+        web.loadUrl("http://google.com");
+    }
+    public void loadFacebookWebview(View view){
+        WebView web = (WebView) findViewById(R.id.webView);
+        web.getSettings().setJavaScriptEnabled(true);
+        web.loadUrl("http://facebook.com");
+    }
+    public void loadTwitterWebview(View view){
+        WebView web = (WebView) findViewById(R.id.webView);
+        web.getSettings().setJavaScriptEnabled(true);
+        web.loadUrl("http://twitter.com");
     }
 
     /**
