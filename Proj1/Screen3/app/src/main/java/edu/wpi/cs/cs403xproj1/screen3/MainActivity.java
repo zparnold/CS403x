@@ -10,7 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -52,16 +54,19 @@ public class MainActivity extends ActionBarActivity {
     public void loadGoogleWebview(View view){
         WebView web = (WebView) findViewById(R.id.webView);
         web.getSettings().setJavaScriptEnabled(true);
+        web.setWebViewClient(new MyWebViewClient());
         web.loadUrl("http://google.com");
     }
     public void loadFacebookWebview(View view){
         WebView web = (WebView) findViewById(R.id.webView);
         web.getSettings().setJavaScriptEnabled(true);
+        web.setWebViewClient(new MyWebViewClient());
         web.loadUrl("http://facebook.com");
     }
     public void loadTwitterWebview(View view){
         WebView web = (WebView) findViewById(R.id.webView);
         web.getSettings().setJavaScriptEnabled(true);
+        web.setWebViewClient(new MyWebViewClient());
         web.loadUrl("http://twitter.com");
     }
 
@@ -78,6 +83,15 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
+        }
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return false;
         }
     }
 }
