@@ -58,7 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView"
-                android:src="@drawable/589368_0003" />
+                android:src="@drawable/my_pic"
+                android:contentDescription="@string/myPic" />
 
         </LinearLayout>
     </ScrollView>
