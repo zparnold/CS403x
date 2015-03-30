@@ -22,11 +22,11 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
-    private List<Photo> mPhoto;
+    private LinkedList<Photo> mPhoto;
     
     public Crime() {
         mId = UUID.randomUUID();
-        mPhoto = new ArrayList<Photo>();
+        mPhoto = new LinkedList<Photo>();
         mDate = new Date();
     }
 
@@ -35,7 +35,7 @@ public class Crime {
         mTitle = json.getString(JSON_TITLE);
         mSolved = json.getBoolean(JSON_SOLVED);
         mDate = new Date(json.getLong(JSON_DATE));
-        mPhoto = new ArrayList<Photo>();
+        mPhoto = new LinkedList<Photo>();
 
         if (json.has(JSON_PHOTO)) {
             for (int i = 0; i < json.getJSONArray(JSON_PHOTO).length(); i++) {
@@ -93,7 +93,31 @@ public class Crime {
 	}
 
 	public void setPhotoList(List<Photo> photoList) {
-		mPhoto = photoList;
+		mPhoto = new LinkedList<Photo>(photoList);
 	}
+
+    public void addPhoto(Photo photo) {
+        if (mPhoto.size() >= 4)
+            mPhoto.removeLast();
+
+        mPhoto.addFirst(photo);
+    }
+
+    public Photo getPhoto() {
+        if (mPhoto.size() >= 1)
+            return mPhoto.getFirst();
+        else
+            return null;
+    }
+
+    public List<Photo> getMinorPhotoList() {
+        LinkedList<Photo> minorPhotos = new LinkedList<Photo>(mPhoto);
+        if (minorPhotos.size() >= 2) {
+            minorPhotos.removeFirst();
+            return minorPhotos;
+        } else {
+            return new LinkedList<Photo>();
+        }
+    }
     
 }

@@ -1,6 +1,7 @@
 package com.bignerdranch.android.criminalintent;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import android.annotation.TargetApi;
@@ -40,6 +41,9 @@ public class CrimeFragment extends Fragment {
     CheckBox mSolvedCheckBox;
     ImageButton mPhotoButton;
     ImageView mPhotoView;
+    ImageView minorPhotoView1;
+    ImageView minorPhotoView2;
+    ImageView minorPhotoView3;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -144,13 +148,18 @@ public class CrimeFragment extends Fragment {
             }
         });
         
-        
+        minorPhotoView1 = (ImageView) v.findViewById(R.id.minor_image1);
+        minorPhotoView2 = (ImageView) v.findViewById(R.id.minor_image2);
+        minorPhotoView3 = (ImageView) v.findViewById(R.id.minor_image3);
+
         return v; 
     }
     
     private void showPhoto() {
         // (re)set the image button's image based on our photo
         Photo p = mCrime.getPhoto();
+        List<Photo> minorPhotos = mCrime.getMinorPhotoList();
+
         BitmapDrawable b = null;
         if (p != null) {
             String path = getActivity()
@@ -158,6 +167,27 @@ public class CrimeFragment extends Fragment {
             b = PictureUtils.getScaledDrawable(getActivity(), path);
         }
         mPhotoView.setImageDrawable(b);
+
+        if (minorPhotos.size() >= 1) {
+            String path = getActivity()
+                    .getFileStreamPath(minorPhotos.get(0).getFilename()).getAbsolutePath();
+            b = PictureUtils.getScaledDrawable(getActivity(), path);
+            minorPhotoView1.setImageDrawable(b);
+        }
+
+        if (minorPhotos.size() >= 2) {
+            String path = getActivity()
+                    .getFileStreamPath(minorPhotos.get(1).getFilename()).getAbsolutePath();
+            b = PictureUtils.getScaledDrawable(getActivity(), path);
+            minorPhotoView2.setImageDrawable(b);
+        }
+
+        if (minorPhotos.size() >= 3) {
+            String path = getActivity()
+                    .getFileStreamPath(minorPhotos.get(2).getFilename()).getAbsolutePath();
+            b = PictureUtils.getScaledDrawable(getActivity(), path);
+            minorPhotoView1.setImageDrawable(b);
+        }
     }
 
     @Override
@@ -186,7 +216,7 @@ public class CrimeFragment extends Fragment {
                 .getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
             if (filename != null) {
                 Photo p = new Photo(filename);
-                mCrime.setPhoto(p);
+                mCrime.addPhoto(p);
                 showPhoto();
             }
         }
