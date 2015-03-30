@@ -1,8 +1,12 @@
 package com.bignerdranch.android.criminalintent;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,10 +22,11 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
-    private Photo mPhoto;
+    private List<Photo> mPhoto;
     
     public Crime() {
         mId = UUID.randomUUID();
+        mPhoto = new ArrayList<Photo>();
         mDate = new Date();
     }
 
@@ -30,8 +35,13 @@ public class Crime {
         mTitle = json.getString(JSON_TITLE);
         mSolved = json.getBoolean(JSON_SOLVED);
         mDate = new Date(json.getLong(JSON_DATE));
-        if (json.has(JSON_PHOTO))
-            mPhoto = new Photo(json.getJSONObject(JSON_PHOTO));
+        mPhoto = new ArrayList<Photo>();
+
+        if (json.has(JSON_PHOTO)) {
+            for (int i = 0; i < json.getJSONArray(JSON_PHOTO).length(); i++) {
+                mPhoto.add((Photo) json.getJSONArray(JSON_PHOTO).get(i));
+            }
+        }
     }
 
     public JSONObject toJSON() throws JSONException {
@@ -41,7 +51,7 @@ public class Crime {
         json.put(JSON_SOLVED, mSolved);
         json.put(JSON_DATE, mDate.getTime());
         if (mPhoto != null)
-            json.put(JSON_PHOTO, mPhoto.toJSON());
+            json.put(JSON_PHOTO, new JSONArray(mPhoto));
         return json;
     }
 
@@ -78,12 +88,12 @@ public class Crime {
         mDate = date;
     }
 
-	public Photo getPhoto() {
+	public List<Photo> getPhotoList() {
 		return mPhoto;
 	}
 
-	public void setPhoto(Photo photo) {
-		mPhoto = photo;
+	public void setPhotoList(List<Photo> photoList) {
+		mPhoto = photoList;
 	}
     
 }
