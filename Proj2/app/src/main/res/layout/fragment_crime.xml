@@ -61,6 +61,14 @@
     android:layout_marginRight="16dp"
     android:text="@string/crime_solved_label"
     />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    </LinearLayout>
+
 </LinearLayout>
 
 
