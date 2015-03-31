@@ -54,7 +54,7 @@
       <file leaf-file-name="CrimeFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/CrimeFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.27549466" vertical-offset="1621" max-vertical-offset="2873">
+            <state vertical-scroll-proportion="1.1293759" vertical-offset="1060" max-vertical-offset="2873">
               <caret line="158" column="46" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="46" />
               <folding>
                 <element signature="method#newInstance#0;class#CrimeFragment#0" expanded="false" />
@@ -69,12 +69,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PictureUtils.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/PictureUtils.java">
+      <file leaf-file-name="CrimeCameraActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/CrimeCameraActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="295" max-vertical-offset="952">
-              <caret line="45" column="23" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CrimeCameraFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/CrimeCameraFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="601" max-vertical-offset="1258">
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+              <folding>
+                <element signature="method#onCreateView#0;class#CrimeCameraFragment#0" expanded="false" />
+                <element signature="e#3109#3335#0" expanded="true" />
+                <element signature="e#3323#3324#0" expanded="true" />
+                <element signature="method#surfaceCreated#0;class#3631:5302" expanded="false" />
+                <element signature="method#surfaceDestroyed#0;class#3631:5302" expanded="false" />
+                <element signature="method#surfaceChanged#0;class#3631:5302" expanded="false" />
+                <element signature="method#onResume#0;class#CrimeCameraFragment#0" expanded="false" />
+                <element signature="method#onPause#0;class#CrimeCameraFragment#0" expanded="false" />
+                <element signature="method#getBestSupportedSize#0;class#CrimeCameraFragment#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -82,7 +102,7 @@
       <file leaf-file-name="Crime.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/Crime.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1717">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1009" max-vertical-offset="1717">
               <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
               <folding />
             </state>
@@ -828,6 +848,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout-v14/fragment_crime.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_crime.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/CrimeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/CrimeCameraFragment.java" />
       </list>
     </option>
   </component>
@@ -1159,7 +1180,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -1401,6 +1422,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/PictureUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0091324" vertical-offset="0" max-vertical-offset="952">
+          <caret line="45" column="23" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/CrimeCameraFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="601" max-vertical-offset="1258">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding>
+            <element signature="method#onCreateView#0;class#CrimeCameraFragment#0" expanded="false" />
+            <element signature="e#3109#3335#0" expanded="true" />
+            <element signature="e#3323#3324#0" expanded="true" />
+            <element signature="method#surfaceCreated#0;class#3631:5302" expanded="false" />
+            <element signature="method#surfaceDestroyed#0;class#3631:5302" expanded="false" />
+            <element signature="method#surfaceChanged#0;class#3631:5302" expanded="false" />
+            <element signature="method#onResume#0;class#CrimeCameraFragment#0" expanded="false" />
+            <element signature="method#onPause#0;class#CrimeCameraFragment#0" expanded="false" />
+            <element signature="method#getBestSupportedSize#0;class#CrimeCameraFragment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/Crime.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1026" max-vertical-offset="1717">
@@ -1409,17 +1456,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/PictureUtils.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/CrimeCameraActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="295" max-vertical-offset="952">
-          <caret line="45" column="23" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bignerdranch/android/criminalintent/CrimeFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27549466" vertical-offset="1621" max-vertical-offset="2873">
+        <state vertical-scroll-proportion="1.1293759" vertical-offset="1060" max-vertical-offset="2873">
           <caret line="158" column="46" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="46" />
           <folding>
             <element signature="method#newInstance#0;class#CrimeFragment#0" expanded="false" />
