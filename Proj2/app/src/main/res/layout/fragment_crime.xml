@@ -93,21 +93,24 @@
             android:layout_height="60dp"
             android:id="@+id/minor_image1"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
 
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/minor_image2"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
 
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/minor_image3"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
     </LinearLayout>
 
 </LinearLayout>
