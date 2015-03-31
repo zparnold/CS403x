@@ -149,8 +149,50 @@ public class CrimeFragment extends Fragment {
         });
         
         minorPhotoView1 = (ImageView) v.findViewById(R.id.minor_image1);
+        minorPhotoView1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Photo p = mCrime.getPhoto();
+                if (p == null)
+                    return;
+
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+                String path = getActivity()
+                        .getFileStreamPath(p.getFilename()).getAbsolutePath();
+                ImageFragment.createInstance(path)
+                        .show(fm, DIALOG_IMAGE);
+            }
+        });
         minorPhotoView2 = (ImageView) v.findViewById(R.id.minor_image2);
+        minorPhotoView2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Photo p = mCrime.getPhoto();
+                if (p == null)
+                    return;
+
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+                String path = getActivity()
+                        .getFileStreamPath(p.getFilename()).getAbsolutePath();
+                ImageFragment.createInstance(path)
+                        .show(fm, DIALOG_IMAGE);
+            }
+        });
         minorPhotoView3 = (ImageView) v.findViewById(R.id.minor_image3);
+        minorPhotoView3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Photo p = mCrime.getPhoto();
+                if (p == null)
+                    return;
+
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+                String path = getActivity()
+                        .getFileStreamPath(p.getFilename()).getAbsolutePath();
+                ImageFragment.createInstance(path)
+                        .show(fm, DIALOG_IMAGE);
+            }
+        });
 
         return v; 
     }
