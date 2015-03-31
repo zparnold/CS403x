@@ -50,7 +50,7 @@ public class Crime {
         json.put(JSON_TITLE, mTitle);
         json.put(JSON_SOLVED, mSolved);
         json.put(JSON_DATE, mDate.getTime());
-        if (mPhoto != null)
+        if (mPhoto.size() > 0)
             json.put(JSON_PHOTO, new JSONArray(mPhoto));
         return json;
     }
@@ -97,7 +97,7 @@ public class Crime {
 	}
 
     public void addPhoto(Photo photo) {
-        if (mPhoto.size() >= 4)
+        if (mPhoto.size() >= 5)
             mPhoto.removeLast();
 
         mPhoto.addFirst(photo);

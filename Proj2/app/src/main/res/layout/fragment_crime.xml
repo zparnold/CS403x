@@ -89,22 +89,22 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/minor_image1"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/minor_image2"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/minor_image3"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp" />

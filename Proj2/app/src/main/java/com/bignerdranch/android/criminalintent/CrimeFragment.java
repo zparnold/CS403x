@@ -186,7 +186,7 @@ public class CrimeFragment extends Fragment {
             String path = getActivity()
                     .getFileStreamPath(minorPhotos.get(2).getFilename()).getAbsolutePath();
             b = PictureUtils.getScaledDrawable(getActivity(), path);
-            minorPhotoView1.setImageDrawable(b);
+            minorPhotoView3.setImageDrawable(b);
         }
     }
 
