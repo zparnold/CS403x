@@ -1,5 +1,6 @@
 package com.bignerdranch.android.criminalintent;
 
+import java.io.NotActiveException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -232,6 +233,9 @@ public class CrimeFragment extends Fragment {
         }
     }
 
+    private void deleteAllImages(View v) throws NotActiveException {
+        throw new NotActiveException();
+    }
     @Override
     public void onStart() {
         super.onStart();
