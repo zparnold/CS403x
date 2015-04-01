@@ -89,37 +89,39 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:id="@+id/minor_image1"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@android:color/darker_gray"
+            android:layout_weight="1" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:id="@+id/minor_image2"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@android:color/darker_gray"
+            android:layout_weight="1" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:id="@+id/minor_image3"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@android:color/darker_gray"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dlt_all_imgs"
-        android:id="@+id/button"
-        android:layout_gravity="center_horizontal"
-        android:onClick="deleteAllImages" />
+        android:id="@+id/delete_button"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
 

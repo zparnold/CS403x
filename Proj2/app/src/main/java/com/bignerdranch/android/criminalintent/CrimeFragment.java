@@ -45,6 +45,7 @@ public class CrimeFragment extends Fragment {
     ImageView minorPhotoView1;
     ImageView minorPhotoView2;
     ImageView minorPhotoView3;
+    Button mDeletePhotos;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -195,6 +196,14 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        mDeletePhotos= (Button) v.findViewById(R.id.delete_button);
+        mDeletePhotos.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCrime.deletePhotoList();
+                showPhoto();
+            }
+        });
+
         return v; 
     }
     
@@ -233,9 +242,6 @@ public class CrimeFragment extends Fragment {
         }
     }
 
-    private void deleteAllImages(View v) throws NotActiveException {
-        throw new NotActiveException();
-    }
     @Override
     public void onStart() {
         super.onStart();

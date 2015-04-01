@@ -119,5 +119,9 @@ public class Crime {
             return new LinkedList<Photo>();
         }
     }
+
+    public void deletePhotoList() {
+        mPhoto = new LinkedList<Photo>();
+    }
     
 }
