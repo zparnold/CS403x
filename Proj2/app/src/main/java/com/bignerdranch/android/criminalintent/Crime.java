@@ -1,5 +1,7 @@
 package com.bignerdranch.android.criminalintent;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -22,12 +24,15 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
-    private LinkedList<Photo> mPhoto;
+    private Photo[] mPhoto;
+
+    private int counter;
     
     public Crime() {
         mId = UUID.randomUUID();
-        mPhoto = new LinkedList<Photo>();
+        mPhoto = new Photo[4];
         mDate = new Date();
+        counter = 0;
     }
 
     public Crime(JSONObject json) throws JSONException {
@@ -35,11 +40,11 @@ public class Crime {
         mTitle = json.getString(JSON_TITLE);
         mSolved = json.getBoolean(JSON_SOLVED);
         mDate = new Date(json.getLong(JSON_DATE));
-        mPhoto = new LinkedList<Photo>();
+        mPhoto = new Photo[4];
 
         if (json.has(JSON_PHOTO)) {
             for (int i = 0; i < json.getJSONArray(JSON_PHOTO).length(); i++) {
-                mPhoto.add((Photo) json.getJSONArray(JSON_PHOTO).get(i));
+                mPhoto[i] = ((Photo) json.getJSONArray(JSON_PHOTO).get(i));
             }
         }
     }
@@ -50,8 +55,11 @@ public class Crime {
         json.put(JSON_TITLE, mTitle);
         json.put(JSON_SOLVED, mSolved);
         json.put(JSON_DATE, mDate.getTime());
-        if (mPhoto.size() > 0)
-            json.put(JSON_PHOTO, new JSONArray(mPhoto));
+        LinkedList<Photo> aListOfPhotos = new LinkedList<Photo>();
+        for (int i = 0; i < mPhoto.length; i++)
+            aListOfPhotos.add(mPhoto[i]);
+        if (mPhoto.length > 0)
+            json.put(JSON_PHOTO, new JSONArray(aListOfPhotos));
         return json;
     }
 
@@ -88,40 +96,47 @@ public class Crime {
         mDate = date;
     }
 
-	public List<Photo> getPhotoList() {
+	public Photo[] getPhotoList() {
 		return mPhoto;
 	}
 
-	public void setPhotoList(List<Photo> photoList) {
-		mPhoto = new LinkedList<Photo>(photoList);
+	public void setPhotoList(Photo[] photoList) {
+		mPhoto = photoList;
 	}
 
     public void addPhoto(Photo photo) {
-        if (mPhoto.size() >= 5)
-            mPhoto.removeLast();
+        if (counter >= 4) {
+            mPhoto[counter % 4] = photo;
+        }
 
-        mPhoto.addFirst(photo);
+        else {//counter < 4
+            mPhoto[3] = mPhoto[2];
+            mPhoto[2] = mPhoto[1];
+            mPhoto[1] = mPhoto[0];
+            mPhoto[0] = photo;
+        }
+        counter++;
     }
 
     public Photo getPhoto() {
-        if (mPhoto.size() >= 1)
-            return mPhoto.getFirst();
+        if (mPhoto.length >= 1)
+            return mPhoto[0];
         else
             return null;
     }
 
-    public List<Photo> getMinorPhotoList() {
-        LinkedList<Photo> minorPhotos = new LinkedList<Photo>(mPhoto);
-        if (minorPhotos.size() >= 2) {
-            minorPhotos.removeFirst();
-            return minorPhotos;
-        } else {
-            return new LinkedList<Photo>();
-        }
+    public Photo[] getMinorPhotoList() {
+        Photo[] minorPhotoList = new Photo[3];
+        minorPhotoList[0] = mPhoto[1];
+        minorPhotoList[1] = mPhoto[2];
+        minorPhotoList[2] = mPhoto[3];
+        return minorPhotoList;
     }
 
     public void deletePhotoList() {
-        mPhoto = new LinkedList<Photo>();
+        for (int i = 0; i<mPhoto.length; i++)
+            mPhoto[i] = null;
+        counter = 0;
     }
     
 }

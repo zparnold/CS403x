@@ -210,7 +210,7 @@ public class CrimeFragment extends Fragment {
     private void showPhoto() {
         // (re)set the image button's image based on our photo
         Photo p = mCrime.getPhoto();
-        List<Photo> minorPhotos = mCrime.getMinorPhotoList();
+        Photo[] minorPhotos = mCrime.getMinorPhotoList();
 
         BitmapDrawable b = null;
         if (p != null) {
@@ -220,26 +220,33 @@ public class CrimeFragment extends Fragment {
         }
         mPhotoView.setImageDrawable(b);
 
-        if (minorPhotos.size() >= 1) {
+        if (minorPhotos[0] != null) {
             String path = getActivity()
-                    .getFileStreamPath(minorPhotos.get(0).getFilename()).getAbsolutePath();
+                    .getFileStreamPath(minorPhotos[0].getFilename()).getAbsolutePath();
             b = PictureUtils.getScaledDrawable(getActivity(), path);
             minorPhotoView1.setImageDrawable(b);
         }
 
-        if (minorPhotos.size() >= 2) {
+        else minorPhotoView1.setImageDrawable(null);
+
+        if (minorPhotos[1] != null) {
             String path = getActivity()
-                    .getFileStreamPath(minorPhotos.get(1).getFilename()).getAbsolutePath();
+                    .getFileStreamPath(minorPhotos[1].getFilename()).getAbsolutePath();
             b = PictureUtils.getScaledDrawable(getActivity(), path);
             minorPhotoView2.setImageDrawable(b);
         }
 
-        if (minorPhotos.size() >= 3) {
+        else minorPhotoView2.setImageDrawable(null);
+
+
+        if (minorPhotos[2] != null) {
             String path = getActivity()
-                    .getFileStreamPath(minorPhotos.get(2).getFilename()).getAbsolutePath();
+                    .getFileStreamPath(minorPhotos[2].getFilename()).getAbsolutePath();
             b = PictureUtils.getScaledDrawable(getActivity(), path);
             minorPhotoView3.setImageDrawable(b);
         }
+
+        else minorPhotoView3.setImageDrawable(null);
     }
 
     @Override
