@@ -105,16 +105,7 @@ public class Crime {
 	}
 
     public void addPhoto(Photo photo) {
-        if (counter >= 4) {
-            mPhoto[counter % 4] = photo;
-        }
-
-        else {//counter < 4
-            mPhoto[3] = mPhoto[2];
-            mPhoto[2] = mPhoto[1];
-            mPhoto[1] = mPhoto[0];
-            mPhoto[0] = photo;
-        }
+        mPhoto[counter % 4] = photo;
         counter++;
     }
 
