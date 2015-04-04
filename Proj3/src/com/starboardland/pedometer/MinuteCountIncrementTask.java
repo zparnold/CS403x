@@ -21,8 +21,8 @@ public class MinuteCountIncrementTask extends TimerTask {
     public void run() {
         int count = this.activity.getMinuteCount();
         count++;
-        TextView tvMinCount = activity.getMinCount();
-        
+
+        //activity.setMinCount(tvMinCount);
         this.activity.setMinuteCount(count);
     }
 }
