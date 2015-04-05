@@ -1,6 +1,7 @@
 package com.starboardland.pedometer;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.TimerTask;
@@ -24,5 +25,6 @@ public class MinuteCountIncrementTask extends TimerTask {
 
         //activity.setMinCount(tvMinCount);
         this.activity.setMinuteCount(count);
+        Log.d("CounterActivityTask","Count is now: " + count);
     }
 }
