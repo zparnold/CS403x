@@ -34,15 +34,15 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        count = (TextView) findViewById(R.id.count);
+        //count = (TextView) findViewById(R.id.count);
         setMinuteCount(0);
 
-        //setup new recuring task each minute
+        //setup new recurring task each minute
         MinuteCountIncrementTask tt = new MinuteCountIncrementTask(this);
         Timer t = new Timer();
         t.scheduleAtFixedRate(tt,new Date(),ONE_MINUTE);
 
-        setMinCount((TextView) findViewById(R.id.minCount));
+        //setMinCount((TextView) findViewById(R.id.minCount));
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         setUpMapIfNeeded();
     }
