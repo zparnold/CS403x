@@ -23,8 +23,10 @@ import java.util.Timer;
 public class CounterActivity extends FragmentActivity implements SensorEventListener,LocationListener {
 
     private SensorManager sensorManager;
-    private TextView count;
+    private TextView countTotal;
     private TextView minCount;
+    private TextView[] countSegment = new TextView[8];
+
     boolean activityRunning;
     private int minuteCount;
     private static final int ONE_MINUTE = 60000;
@@ -34,7 +36,15 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        //count = (TextView) findViewById(R.id.count);
+        countSegment[0] = (TextView) findViewById(R.id.count1);
+        countSegment[1] = (TextView) findViewById(R.id.count2);
+        countSegment[2] = (TextView) findViewById(R.id.count3);
+        countSegment[3] = (TextView) findViewById(R.id.count4);
+        countSegment[4] = (TextView) findViewById(R.id.count5);
+        countSegment[5] = (TextView) findViewById(R.id.count6);
+        countSegment[6] = (TextView) findViewById(R.id.count7);
+        countSegment[7] = (TextView) findViewById(R.id.count8);
+        countTotal = (TextView) findViewById(R.id.countTotalText);
         setMinuteCount(0);
 
         //setup new recurring task each minute
@@ -163,9 +173,8 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (activityRunning) {
-            count.setText(String.valueOf(event.values[0]));
+            countTotal.setText(String.valueOf(event.values[0]));
         }
-
     }
 
     @Override
