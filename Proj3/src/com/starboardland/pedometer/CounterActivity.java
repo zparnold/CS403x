@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Date;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class CounterActivity extends FragmentActivity implements SensorEventListener,LocationListener {
 
@@ -26,16 +28,25 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
     private TextView countTotal;
     private TextView minCount;
     private TextView[] countSegment = new TextView[8];
+    private int countSegmentVal = 0;
+    private int countTotalVal = 0;
 
+    boolean countRunning;
     boolean activityRunning;
     private int minuteCount;
     private static final int ONE_MINUTE = 60000;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
+    private Handler resetHandler;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        resetHandler = new Handler();
+
+        //initialize text views
         countSegment[0] = (TextView) findViewById(R.id.count1);
         countSegment[1] = (TextView) findViewById(R.id.count2);
         countSegment[2] = (TextView) findViewById(R.id.count3);
@@ -45,12 +56,32 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
         countSegment[6] = (TextView) findViewById(R.id.count7);
         countSegment[7] = (TextView) findViewById(R.id.count8);
         countTotal = (TextView) findViewById(R.id.countTotalText);
-        setMinuteCount(0);
 
         //setup new recurring task each minute
-        MinuteCountIncrementTask tt = new MinuteCountIncrementTask(this);
+        setMinuteCount(0);
+        countRunning = true;
         Timer t = new Timer();
-        t.scheduleAtFixedRate(tt,new Date(),ONE_MINUTE);
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (countRunning) {
+                    if (minuteCount == 0) {
+                        minuteCount++;
+                    } else {
+                        resetHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                displayAndReset(countSegmentVal, minuteCount);
+                            }
+                        });
+                    }
+
+                    if (minuteCount >= 8) {
+                        countRunning = false;
+                    }
+                }
+            }
+        },new Date(),ONE_MINUTE);
 
         //setMinCount((TextView) findViewById(R.id.minCount));
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -65,10 +96,9 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
         if (countSensor != null) {
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
         } else {
-            Toast.makeText(this, "Count sensor not available!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Count sensor not available!", Toast.LENGTH_LONG).show();
         }
         setUpMapIfNeeded();
-
     }
 
     /**
@@ -172,8 +202,12 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (activityRunning) {
-            countTotal.setText(String.valueOf(event.values[0]));
+        if (activityRunning && countRunning) {
+            countSegmentVal += 1;
+            countTotalVal += 1;
+
+            countSegment[minuteCount - 1].setText(String.valueOf(countSegmentVal));
+            countTotal.setText(String.valueOf(countTotalVal));
         }
     }
 
@@ -195,5 +229,11 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
 
     public void setMinCount(TextView minCount) {
         this.minCount = minCount;
+    }
+
+    public void displayAndReset(int steps, int segment) {
+        Toast.makeText(getApplicationContext(), "You took " + String.valueOf(steps) + " steps in Segment " + String.valueOf(segment), Toast.LENGTH_LONG).show();
+        minuteCount += 1;
+        countSegmentVal = 0;
     }
 }
