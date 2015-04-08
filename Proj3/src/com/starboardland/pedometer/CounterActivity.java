@@ -1,6 +1,8 @@
 package com.starboardland.pedometer;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.*;
 import android.location.Criteria;
 import android.location.Location;
@@ -38,6 +40,7 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     private Handler resetHandler;
+    private SQLiteDatabase db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
                         resetHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                displayAndReset(countSegmentVal, minuteCount);
+                                displayAndReset();
                             }
                         });
                     }
@@ -86,6 +89,17 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
         //setMinCount((TextView) findViewById(R.id.minCount));
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         setUpMapIfNeeded();
+
+        db = openOrCreateDatabase("StepCountDB", Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS step_count(minutes int NOT NULL, steps int, PRIMARY KEY (minutes))");
+        db.execSQL("INSERT OR REPLACE INTO step_count (minutes, steps) VALUES (1,0)");
+        db.execSQL("INSERT OR REPLACE INTO step_count (minutes, steps) VALUES (2,0)");
+        db.execSQL("INSERT OR REPLACE INTO step_count (minutes, steps) VALUES (3,0)");
+        db.execSQL("INSERT OR REPLACE INTO step_count (minutes, steps) VALUES (4,0)");
+        db.execSQL("INSERT OR REPLACE INTO step_count (minutes, steps) VALUES (5,0)");
+        db.execSQL("INSERT OR REPLACE INTO step_count (minutes, steps) VALUES (6,0)");
+        db.execSQL("INSERT OR REPLACE INTO step_count (minutes, steps) VALUES (7,0)");
+        db.execSQL("INSERT OR REPLACE INTO step_count (minutes, steps) VALUES (8,0)");
     }
 
     @Override
@@ -231,8 +245,9 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
         this.minCount = minCount;
     }
 
-    public void displayAndReset(int steps, int segment) {
-        Toast.makeText(getApplicationContext(), "You took " + String.valueOf(steps) + " steps in Segment " + String.valueOf(segment), Toast.LENGTH_LONG).show();
+    public void displayAndReset() {
+        Toast.makeText(getApplicationContext(), "You took " + String.valueOf(countSegmentVal) + " steps in Segment " + String.valueOf(minuteCount), Toast.LENGTH_LONG).show();
+        db.execSQL("UPDATE step_count SET steps=" + countSegmentVal + " WHERE minutes=" + minuteCount);
         minuteCount += 1;
         countSegmentVal = 0;
     }
