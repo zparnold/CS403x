@@ -22,7 +22,7 @@ public class MinuteCountIncrementTask extends TimerTask {
     public void run() {
         int count = this.activity.getMinuteCount();
         count++;
-
+        activity.setUpMap();
         //activity.setMinCount(tvMinCount);
         this.activity.setMinuteCount(count);
         Log.d("CounterActivityTask","Count is now: " + count);

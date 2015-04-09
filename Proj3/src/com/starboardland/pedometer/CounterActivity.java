@@ -151,7 +151,7 @@ public class CounterActivity extends FragmentActivity implements SensorEventList
      * mMap.addMarker(new MarkerOptions().position(new LatLng(mMap.getMyLocation().getLatitude(),
      mMap.getMyLocation().getLongitude())).title("Marker"));
      */
-    private void setUpMap() {
+    protected void setUpMap() {
         mMap.setMyLocationEnabled(true);
         // Getting LocationManager object from System Service LOCATION_SERVICE
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
