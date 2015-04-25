@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">WPIFreebies</string>
     <string name="title_activity_freebie_locator">WPI Freebie Map</string>
+    <string name="make_freebie">Announce Freebie</string>
+    <string name="title_activity_create_freebie">CreateFreebie</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="create_title_label">Create A Freebie</string>
+    <string name="create_freebie_title">Freebie Title</string>
+    <string name="create_freebie_description">Freebie Description</string>
+    <string name="create_freebie_category">Category</string>
+    <string name="create_freebie_send">Create Freebie</string>
 </resources>

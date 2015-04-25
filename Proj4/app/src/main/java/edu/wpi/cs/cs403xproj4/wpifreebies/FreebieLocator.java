@@ -1,7 +1,9 @@
 package edu.wpi.cs.cs403xproj4.wpifreebies;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -11,6 +13,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class FreebieLocator extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,5 +64,16 @@ public class FreebieLocator extends FragmentActivity {
      */
     private void setUpMap() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+    }
+
+    /**
+     * Start the "create a freebie" activity
+     */
+    public void startFreebieMaker(View view) {
+        Intent intent = new Intent(this, CreateFreebie.class);
+        //get lattitude and longitude
+        //loc
+        //intent.putExtra(EXTRA_MESSAGE, loc);
+        startActivity(intent);
     }
 }
