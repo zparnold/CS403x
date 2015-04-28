@@ -1,6 +1,5 @@
 package edu.wpi.cs.cs403xproj4.wpifreebies;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +8,8 @@ import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -18,7 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import edu.wpi.cs.cs403xproj4.wpifreebies.services.CategoryManagerService;
 import edu.wpi.cs.cs403xproj4.wpifreebies.services.FreebieManagerService;
 
-public class FreebieLocator extends Activity {
+public class FreebieLocator extends FragmentActivity {
     private static final String TAG = "WPIFreebiesMain";
 
     CategoryManagerService categories;
@@ -28,6 +29,7 @@ public class FreebieLocator extends Activity {
     private boolean freebiesBound = false;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +81,15 @@ public class FreebieLocator extends Activity {
      */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
-//        if (mMap == null) {
-//            // Try to obtain the map from the SupportMapFragment.
-//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-//                    .getMap();
-//            // Check if we were successful in obtaining the map.
-//            if (mMap != null) {
-//                setUpMap();
-//            }
-//        }
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                    .getMap();
+            // Check if we were successful in obtaining the map.
+            if (mMap != null) {
+                setUpMap();
+            }
+        }
     }
 
     /**
@@ -100,7 +102,6 @@ public class FreebieLocator extends Activity {
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
 
-
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -109,8 +110,8 @@ public class FreebieLocator extends Activity {
             CategoryManagerService.CategoryManagerBinder binder = (CategoryManagerService.CategoryManagerBinder) service;
             categories = binder.getService();
             categoriesBound = true;
-            Log.v(TAG, "about to get categories...");
-            categories.getCategories();
+            Toast.makeText(FreebieLocator.this, "Connected", Toast.LENGTH_SHORT)
+                    .show();
         }
 
         @Override
@@ -118,4 +119,15 @@ public class FreebieLocator extends Activity {
             categoriesBound = false;
         }
     };
+
+    /**
+     * Start the "create a freebie" activity
+     */
+    public void startFreebieMaker(View view) {
+        Intent intent = new Intent(this, CreateFreebie.class);
+        //get lattitude and longitude
+        //loc
+        //intent.putExtra(EXTRA_MESSAGE, loc);
+        startActivity(intent);
+    }
 }
