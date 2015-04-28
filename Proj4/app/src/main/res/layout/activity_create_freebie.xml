@@ -55,7 +55,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/create_freebie_spinner"
         android:layout_gravity="center_horizontal"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        android:layout_marginBottom="20dp" />
 
     <Button
         android:layout_width="match_parent"

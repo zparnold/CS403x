@@ -11,4 +11,10 @@
     <string name="create_freebie_description">Freebie Description</string>
     <string name="create_freebie_category">Category</string>
     <string name="create_freebie_send">Create Freebie</string>
+
+    <string-array name="freebie_choices">
+        <item>Food</item>
+        <item>Clothing</item>
+        <item>Other</item>
+    </string-array>
 </resources>

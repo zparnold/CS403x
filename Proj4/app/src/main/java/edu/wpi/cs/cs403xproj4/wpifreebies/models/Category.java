@@ -2,6 +2,10 @@ package edu.wpi.cs.cs403xproj4.wpifreebies.models;
 
 /**
  * Created by Tyler on 4/24/2015.
+ *
+ * FOOD = RED
+ * CLOTHING = GREEN
+ * OTHER = BLUE
  */
 public class Category {
     String name;
