@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by Tyler on 4/24/2015.
  */
 public class Freebie {
+    String _id;
     String name;
     String description;
     Date postDate;
@@ -17,8 +18,9 @@ public class Freebie {
 
     public Freebie() { }
 
-    public Freebie(String name, String description, Date postDate, Long latitude, Long longitude,
-                   int upVotes, int downVotes, Category category) {
+    public Freebie(String _id, String name, String description, Date postDate, Long latitude,
+                   Long longitude, int upVotes, int downVotes, Category category) {
+        this._id = _id;
         this.name = name;
         this.description = description;
         this.postDate = postDate;
@@ -28,6 +30,10 @@ public class Freebie {
         this.downVotes = downVotes;
         this.category = category;
     }
+
+    public String get_id() { return _id; }
+
+    public void set_id(String _id) { this._id = _id; }
 
     public String getName() {
         return name;
