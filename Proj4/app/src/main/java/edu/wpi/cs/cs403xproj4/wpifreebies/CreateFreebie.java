@@ -14,7 +14,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Date;
 import edu.wpi.cs.cs403xproj4.wpifreebies.models.Category;
@@ -115,40 +118,78 @@ public class CreateFreebie extends Activity {
             lat = location.getLatitude();
             lng = location.getLongitude();
 
-            Freebie mFreebie = new Freebie(name,description,when,lng,lat,0,0,category);
+            final Freebie mFreebie = new Freebie(name,description,when,lng,lat,0,0,category);
 
-            //send the freebie information here
-            try {
-                sendFreebieToServer(mFreebie);
-            }
-            catch (Exception e){
-                Log.e("SendingHTTPFreebie",e.getMessage());
-                //TODO add smarter handling for failed requests
-            }
+            //Body of your click handler
+            Thread thread = new Thread(new Runnable(){
+                @Override
+                public void run(){
+                    //code to do the HTTP request
+                    sendFreebieToServer(mFreebie);
+                    //TODO add smarter handling of errors
+                }
+            });
+            thread.start();
         }
 
         finish();
     }
 
-    private void sendFreebieToServer(Freebie mFreebie) throws Exception{
+    private void sendFreebieToServer(Freebie mFreebie){
         //TODO finish method
         String url = "http://cs403x-final-host.herokuapp.com/api/freebies";
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        URL obj = null;
+        try {
+            obj = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection con = null;
+        try {
+            con = (HttpURLConnection) obj.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        //add reuqest header
-        con.setRequestMethod("POST");
+        //add request header
+        try {
+            con.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
         con.setRequestProperty("Content-Type","application/json");
         con.setRequestProperty("Accept", "application/json");
+        try {
+            con.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         String urlParameters = mFreebie.toJSON();
 
         // Send post request
         con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(urlParameters);
-        wr.flush();
-        wr.close();
+        DataOutputStream wr = null;
+        try {
+            wr = new DataOutputStream(con.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            wr.writeBytes(urlParameters);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            wr.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            wr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
