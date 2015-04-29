@@ -2,6 +2,9 @@ package edu.wpi.cs.cs403xproj4.wpifreebies;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,9 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.Date;
 
+import edu.wpi.cs.cs403xproj4.wpifreebies.models.Category;
 import edu.wpi.cs.cs403xproj4.wpifreebies.models.Freebie;
 
 
@@ -58,11 +63,64 @@ public class CreateFreebie extends Activity {
 
     //Send the creation data and end the current activity, returning to main screen
     public void sendFreebie(View view) {
+        ///TODO Validate form
         //get the freebie from the view and send it
         Date when = new Date();
+        String name;
+        String description;
+        String categoryString;
+        String color = "";
+        double lat,lng;
+        Category category = null;
+
+        if (view != null) {
+            TextView nameText = (TextView) view.findViewById(R.id.create_freebie_title);
+            name = nameText.getText().toString();
+            TextView descText = (TextView) view.findViewById(R.id.editText);
+            description = descText.getText().toString();
+            Spinner spinner = (Spinner)findViewById(R.id.create_freebie_spinner);
+            categoryString = spinner.getSelectedItem().toString();
 
 
-        //send the freebie information here
+            switch (categoryString){
+                case "Food":
+                    color = "RED";
+                    break;
+                case "Clothing":
+                    color = "GREEN";
+                    break;
+                case "Other":
+                    color = "BLUE";
+                    break;
+                default:
+                    break;
+            }
+            category = new Category(categoryString,color);
+
+            // Getting LocationManager object from System Service LOCATION_SERVICE
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+            // Creating a criteria object to retrieve provider
+            Criteria criteria = new Criteria();
+
+            // Getting the name of the best provider
+            String provider = locationManager.getBestProvider(criteria, true);
+            // Getting Current Location
+            Location location = locationManager.getLastKnownLocation(provider);
+
+            lat = location.getLatitude();
+            lng = location.getLongitude();
+
+            Freebie mFreebie = new Freebie(name,description,when,lng,lat,0,0,category);
+
+            //send the freebie information here
+
+            //TODO make HTTP request either here, or farm out to new method.
+        }
+
+
+
+
 
         finish();
     }

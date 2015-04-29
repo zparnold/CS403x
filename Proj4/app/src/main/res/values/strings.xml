@@ -2,7 +2,7 @@
     <string name="app_name">WPIFreebies</string>
     <string name="title_activity_freebie_locator">WPI Freebie Map</string>
     <string name="make_freebie">Announce Freebie</string>
-    <string name="title_activity_create_freebie">CreateFreebie</string>
+    <string name="title_activity_create_freebie">Create Freebie</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

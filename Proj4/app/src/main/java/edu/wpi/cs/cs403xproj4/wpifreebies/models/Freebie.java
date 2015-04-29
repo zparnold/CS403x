@@ -9,15 +9,15 @@ public class Freebie {
     String name;
     String description;
     Date postDate;
-    Long latitude;
-    Long longitude;
+    double latitude;
+    double longitude;
     int upVotes;
     int downVotes;
     Category category;
 
     public Freebie() { }
 
-    public Freebie(String name, String description, Date postDate, Long latitude, Long longitude,
+    public Freebie(String name, String description, Date postDate, double latitude, double longitude,
                    int upVotes, int downVotes, Category category) {
         this.name = name;
         this.description = description;
@@ -53,7 +53,7 @@ public class Freebie {
         this.postDate = postDate;
     }
 
-    public Long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -61,7 +61,7 @@ public class Freebie {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
