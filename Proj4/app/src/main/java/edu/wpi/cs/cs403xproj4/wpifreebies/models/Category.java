@@ -33,4 +33,11 @@ public class Category {
     public void setColor(String color) {
         this.color = color;
     }
+
+    public String toJSON(){
+        String retString = "";
+        retString += "{\"name\":\""+this.name+"\",";
+        retString += "\"color\":\""+this.color+"\"}";
+        return retString;
+    }
 }

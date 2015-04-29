@@ -1,26 +1,29 @@
 package edu.wpi.cs.cs403xproj4.wpifreebies;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
-
 import edu.wpi.cs.cs403xproj4.wpifreebies.models.Category;
 import edu.wpi.cs.cs403xproj4.wpifreebies.models.Freebie;
 
 
 public class CreateFreebie extends Activity {
+    EditText nameText,descText;
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,10 @@ public class CreateFreebie extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        this.nameText = (EditText) findViewById(R.id.create_freebie_title);
+        this.descText = (EditText) findViewById(R.id.editText);
+        this.spinner = (Spinner) findViewById(R.id.create_freebie_spinner);
     }
 
 
@@ -71,14 +78,11 @@ public class CreateFreebie extends Activity {
         String categoryString;
         String color = "";
         double lat,lng;
-        Category category = null;
+        Category category;
 
         if (view != null) {
-            TextView nameText = (TextView) view.findViewById(R.id.create_freebie_title);
             name = nameText.getText().toString();
-            TextView descText = (TextView) view.findViewById(R.id.editText);
             description = descText.getText().toString();
-            Spinner spinner = (Spinner)findViewById(R.id.create_freebie_spinner);
             categoryString = spinner.getSelectedItem().toString();
 
 
@@ -114,14 +118,37 @@ public class CreateFreebie extends Activity {
             Freebie mFreebie = new Freebie(name,description,when,lng,lat,0,0,category);
 
             //send the freebie information here
-
-            //TODO make HTTP request either here, or farm out to new method.
+            try {
+                sendFreebieToServer(mFreebie);
+            }
+            catch (Exception e){
+                Log.e("SendingHTTPFreebie",e.getMessage());
+                //TODO add smarter handling for failed requests
+            }
         }
 
-
-
-
-
         finish();
+    }
+
+    private void sendFreebieToServer(Freebie mFreebie) throws Exception{
+        //TODO finish method
+        String url = "http://cs403x-final-host.herokuapp.com/api/freebies";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        //add reuqest header
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type","application/json");
+        con.setRequestProperty("Accept", "application/json");
+
+        String urlParameters = mFreebie.toJSON();
+
+        // Send post request
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(urlParameters);
+        wr.flush();
+        wr.close();
+
     }
 }

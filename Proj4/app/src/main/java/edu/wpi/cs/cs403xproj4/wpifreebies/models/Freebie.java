@@ -92,4 +92,17 @@ public class Freebie {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public String toJSON(){
+        String retString = "";
+        retString += "{\"name\":\""+this.name+"\",";
+        retString += "\"description\":\""+this.description+"\",";
+        retString += "\"postDate\":\""+this.postDate.toString()+"\",";;
+        retString += "\"latitude\":\""+Double.toString(this.latitude)+"\",";
+        retString += "\"longitude\":\""+Double.toString(this.longitude)+"\",";
+        retString += "\"upVotes\":\""+Integer.toString(this.upVotes)+"\",";
+        retString += "\"downVotes\":\""+Integer.toString(this.downVotes)+"\",";
+        retString += "\"category\":"+this.category.toJSON()+"}";
+        return retString;
+    }
 }
