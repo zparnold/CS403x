@@ -10,16 +10,32 @@ public class Freebie {
     String name;
     String description;
     Date postDate;
-    Long latitude;
-    Long longitude;
+    Double latitude;
+    Double longitude;
     int upVotes;
     int downVotes;
-    Category category;
 
-    public Freebie() { }
+    public Freebie() {
+        _id = "";
+        name = "";
+        description = "";
+        Date postDate = new Date();
+        latitude = 0.0;
+        longitude = 0.0;
+        int upVotes = 0;
+        int downVotes = 0;
+    }
 
-    public Freebie(String _id, String name, String description, Date postDate, Long latitude,
-                   Long longitude, int upVotes, int downVotes, Category category) {
+    public Freebie(String name, String description, Double latitude, Double longitude) {
+        this._id = "";
+        this.name = name;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Freebie(String _id, String name, String description, Date postDate, Double latitude,
+                   Double longitude, int upVotes, int downVotes) {
         this._id = _id;
         this.name = name;
         this.description = description;
@@ -28,7 +44,6 @@ public class Freebie {
         this.longitude = longitude;
         this.upVotes = upVotes;
         this.downVotes = downVotes;
-        this.category = category;
     }
 
     public String get_id() { return _id; }
@@ -59,19 +74,19 @@ public class Freebie {
         this.postDate = postDate;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -89,13 +104,5 @@ public class Freebie {
 
     public void setDownVotes(int downVotes) {
         this.downVotes = downVotes;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 }

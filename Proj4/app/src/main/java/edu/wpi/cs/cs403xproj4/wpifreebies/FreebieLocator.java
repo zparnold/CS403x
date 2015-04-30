@@ -1,13 +1,8 @@
 package edu.wpi.cs.cs403xproj4.wpifreebies;
 
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,17 +11,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import edu.wpi.cs.cs403xproj4.wpifreebies.services.CategoryManagerService;
-import edu.wpi.cs.cs403xproj4.wpifreebies.services.FreebieManagerService;
+import javax.xml.datatype.Duration;
 
-public class FreebieLocator extends FragmentActivity {
+import edu.wpi.cs.cs403xproj4.wpifreebies.models.Freebie;
+import edu.wpi.cs.cs403xproj4.wpifreebies.services.FreebieListener;
+import edu.wpi.cs.cs403xproj4.wpifreebies.services.FreebieManager;
+
+public class FreebieLocator extends FragmentActivity implements FreebieListener {
     private static final String TAG = "WPIFreebiesMain";
-
-    CategoryManagerService categories;
-    private boolean categoriesBound = false;
-
-    FreebieManagerService freebies;
-    private boolean freebiesBound = false;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
@@ -35,17 +27,9 @@ public class FreebieLocator extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_freebie_locator);
-        Intent intent = new Intent(this, CategoryManagerService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        Log.v(TAG, "connected to category service: " + categoriesBound);
+        FreebieManager.getInstance().addListener(this);
 
-        setUpMapIfNeeded();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.v(TAG, "connected to category service: " + categoriesBound);
+        FreebieManager.getInstance().addFreebie(new Freebie("test from phone", "test", 40.0, 40.0));
     }
 
     @Override
@@ -57,11 +41,12 @@ public class FreebieLocator extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        // Unbind from the service
-        if (categoriesBound) {
-            unbindService(mConnection);
-            categoriesBound = false;
-        }
+    }
+
+    @Override
+    public void onFreebieUpdate() {
+        Toast.makeText(getApplicationContext(), "FreebieManager retrieved data", Toast.LENGTH_SHORT).show();
+        // add all map markers
     }
 
     /**
@@ -101,24 +86,6 @@ public class FreebieLocator extends FragmentActivity {
     private void setUpMap() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            CategoryManagerService.CategoryManagerBinder binder = (CategoryManagerService.CategoryManagerBinder) service;
-            categories = binder.getService();
-            categoriesBound = true;
-            Toast.makeText(FreebieLocator.this, "Connected", Toast.LENGTH_SHORT)
-                    .show();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            categoriesBound = false;
-        }
-    };
 
     /**
      * Start the "create a freebie" activity

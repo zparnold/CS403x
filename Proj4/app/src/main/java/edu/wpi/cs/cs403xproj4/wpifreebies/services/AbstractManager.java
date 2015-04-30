@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 /**
  * Created by Tyler on 4/24/2015.
  */
-public abstract class ManageModelService extends Service {
+public abstract class AbstractManager {
     public String doGet(String request) {
         String resp = null;
         try {
