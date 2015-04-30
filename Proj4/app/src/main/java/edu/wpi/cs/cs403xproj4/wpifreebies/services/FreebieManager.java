@@ -16,6 +16,8 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -70,15 +73,16 @@ public class FreebieManager {
     }
 
     public void addFreebie(Freebie freebie) {
-        //UrlEncodedFormEntity reqEntity = new UrlEncodedFormEntity();
-
         try {
-//            reqEntity.addPart("name", new StringBody(freebie.getName()));
-//            reqEntity.addPart("description", new StringBody(freebie.getDescription()));
-//            reqEntity.addPart("latitude", new StringBody(String.valueOf(freebie.getLatitude())));
-//            reqEntity.addPart("longitude", new StringBody(String.valueOf(freebie.getLongitude())));
-//
-//            new CreateFreebieTask().execute(new RequestParams(CATEGORY_API_URL, reqEntity));
+            BasicNameValuePair params[] = {
+                    new BasicNameValuePair("name", freebie.getName()),
+                    new BasicNameValuePair("description", freebie.getDescription()),
+                    new BasicNameValuePair("latitude", String.valueOf(freebie.getLatitude())),
+                    new BasicNameValuePair("longitude", String.valueOf(freebie.getLongitude())),
+            };
+            UrlEncodedFormEntity reqEntity = new UrlEncodedFormEntity(Arrays.asList(params));
+
+            new CreateFreebieTask().execute(new RequestParams(CATEGORY_API_URL, reqEntity));
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

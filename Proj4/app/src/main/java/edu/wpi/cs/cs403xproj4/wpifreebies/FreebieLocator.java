@@ -49,7 +49,7 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
 
     @Override
     public void onFreebieUpdate() {
-        Toast.makeText(getApplicationContext(), "FreebieManager retrieved data", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), String.valueOf(FreebieManager.getInstance().getFreebies().size()), Toast.LENGTH_SHORT).show();
         // add all map markers
     }
 
