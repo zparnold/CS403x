@@ -14,8 +14,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import java.util.Locale;
-import javax.xml.datatype.Duration;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.LinkedList;
 
 import edu.wpi.cs.cs403xproj4.wpifreebies.models.Freebie;
 import edu.wpi.cs.cs403xproj4.wpifreebies.services.FreebieListener;
@@ -25,6 +26,7 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
     private static final String TAG = "WPIFreebiesMain";
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private boolean firstLocationUpdate = false;
     public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
 
     @Override
@@ -32,8 +34,6 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_freebie_locator);
         FreebieManager.getInstance().addListener(this);
-
-        FreebieManager.getInstance().addFreebie(new Freebie("test from phone", "test", 40.0, 40.0));
     }
 
     @Override
@@ -43,14 +43,19 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
     public void onFreebieUpdate() {
-        Toast.makeText(getApplicationContext(), String.valueOf(FreebieManager.getInstance().getFreebies().size()), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), String.valueOf(FreebieManager.getInstance().getFreebies().size()) + " freebies currently on your campus", Toast.LENGTH_SHORT).show();
         // add all map markers
+        mMap.clear();
+        LinkedList<Freebie> freebies = (LinkedList<Freebie>) FreebieManager.getInstance().getFreebies();
+        for (int i = 0; i < freebies.size(); i++) {
+            Freebie current = freebies.get(i);
+            MarkerOptions options = new MarkerOptions();
+
+            options.title(current.getName());
+            options.position(new LatLng(current.getLatitude(), current.getLongitude()));
+            mMap.addMarker(options);
+        }
     }
 
     /**
@@ -117,26 +122,23 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
         if(location!=null){
             onLocationChanged(location);
         }
-        locationManager.requestLocationUpdates(provider,60000,0, this);
+        locationManager.requestLocationUpdates(provider,30000,0, this);
     }
     @Override
     public void onLocationChanged(Location location) {
-
-        // Getting latitude of the current location
-        double latitude = location.getLatitude();
-
-        // Getting longitude of the current location
-        double longitude = location.getLongitude();
-
-        // Creating a LatLng object for the current location
-        LatLng latLng = new LatLng(latitude, longitude);
-
-        // Showing the current location in Google Map
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        // Zoom in the Google Map
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-
+        if (!(firstLocationUpdate)) {
+            // Getting latitude of the current location
+            double latitude = location.getLatitude();
+            // Getting longitude of the current location
+            double longitude = location.getLongitude();
+            // Creating a LatLng object for the current location
+            LatLng latLng = new LatLng(latitude, longitude);
+            // Showing the current location in Google Map
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            // Zoom in the Google Map
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+            firstLocationUpdate = true;
+        }
     }
 
     @Override
