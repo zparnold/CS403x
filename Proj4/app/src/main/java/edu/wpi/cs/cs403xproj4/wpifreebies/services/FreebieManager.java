@@ -91,11 +91,13 @@ public class FreebieManager {
     }
 
     public void upVote(Freebie freebie) {
-
+        //send the freebie to the server
+        //update the local
     }
 
     public void downVote (Freebie freebie) {
-        
+        //send the freebie to the servre
+        //update the local
     }
 
     private Freebie parseFreebie(JSONObject jObject) {

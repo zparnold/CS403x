@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,6 +18,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -29,7 +32,9 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private boolean firstLocationUpdate = false;
-    private HashMap<Marker, Freebie> freebieMarkerMap;
+    private HashMap<Marker, Freebie> freebieMarkerMap = new HashMap<>();
+
+    private Freebie freebie = null; //the currently viewed freebie
 
     public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
 
@@ -38,12 +43,14 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_freebie_locator);
         FreebieManager.getInstance().addListener(this);
+        initializeInfoTab();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+        initializeInfoTab();
     }
 
     @Override
@@ -116,7 +123,8 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Freebie freebie = freebieMarkerMap.get(marker);
+                freebie = freebieMarkerMap.get(marker);
+                //updateInfoTab();
             }
         });
         // Getting LocationManager object from System Service LOCATION_SERVICE
@@ -166,12 +174,55 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
     @Override
     public void onProviderDisabled(String s) {}
 
+    public void initializeInfoTab(){
+        if(!FreebieManager.getInstance().getFreebies().isEmpty() && freebie == null) {
+            freebie = FreebieManager.getInstance().getFreebies().get(0);
+            updateInfoTab();
+        }
+        else if (freebie != null) {
+            updateInfoTab();
+        }
+        else {
+            ((TextView) findViewById(R.id.info_freebie_title)).setText("No Freebies exist at this time");
+            ((TextView) findViewById(R.id.info_freebie_description)).setText("There are no freebie that are currently active. Please try again later.");
+            ((TextView) findViewById(R.id.info_freebie_upvotes)).setText("0");
+            ((TextView) findViewById(R.id.info_freebie_downvotes)).setText("0");
+            ((TextView) findViewById(R.id.info_freebie_date)).setText(getDateAsString());
+        }
+
+    }
+
+    private void updateInfoTab() {
+        ((TextView) findViewById(R.id.info_freebie_title)).setText(freebie.getName());
+        ((TextView) findViewById(R.id.info_freebie_description)).setText(freebie.getDescription());
+        ((TextView) findViewById(R.id.info_freebie_upvotes)).setText(Integer.toString(freebie.getUpVotes()));
+        ((TextView) findViewById(R.id.info_freebie_downvotes)).setText(Integer.toString(freebie.getDownVotes()));
+        ((TextView) findViewById(R.id.info_freebie_date)).setText(getDateAsString());
+    }
+
     //upvote the currently selected
     public void upVote(View view) {
-
+        if(freebie == null) {
+            Toast.makeText(getApplicationContext(), "There is not a Freebie to upvote", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        FreebieManager.getInstance().upVote(freebie);
+        updateInfoTab();
     }
     //downvote the currently selected
     public void downVote(View view) {
+        if(freebie == null) {
+            Toast.makeText(getApplicationContext(), "There is not a Freebie to downvote", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        FreebieManager.getInstance().downVote(freebie);
+        updateInfoTab();
+    }
 
+    public String getDateAsString() {
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        return df.format(c.getTime());
     }
 }

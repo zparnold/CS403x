@@ -27,7 +27,8 @@
 
         <activity
             android:name=".FreebieLocator"
-            android:label="@string/title_activity_freebie_locator" >
+            android:label="@string/title_activity_freebie_locator"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +38,8 @@
         <activity
             android:name=".CreateFreebie"
             android:label="@string/title_activity_create_freebie"
-            android:parentActivityName=".FreebieLocator" >
+            android:parentActivityName=".FreebieLocator"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="FreebieLocator" />
