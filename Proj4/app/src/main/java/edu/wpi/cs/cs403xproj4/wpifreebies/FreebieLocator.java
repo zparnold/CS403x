@@ -33,6 +33,7 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private boolean firstLocationUpdate = false;
     private HashMap<Marker, Freebie> freebieMarkerMap = new HashMap<>();
+    private Freebie freebie = null;
 
     public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
 
@@ -194,6 +195,7 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
 
     private void updateInfoTab() {
         if(freebie == null) { return; }
+        freebie = FreebieManager.getInstance().getFreebieByID(freebie.get_id());
         ((TextView) findViewById(R.id.info_freebie_title)).setText(freebie.getName());
         ((TextView) findViewById(R.id.info_freebie_description)).setText(freebie.getDescription());
         ((TextView) findViewById(R.id.info_freebie_upvotes)).setText(Integer.toString(freebie.getUpVotes()));

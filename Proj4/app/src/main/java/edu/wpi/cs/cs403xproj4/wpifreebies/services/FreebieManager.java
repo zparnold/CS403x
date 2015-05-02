@@ -84,6 +84,8 @@ public class FreebieManager {
                 return current;
             }
         }
+
+        return null;
     }
 
     public void refreshFreebies() {
