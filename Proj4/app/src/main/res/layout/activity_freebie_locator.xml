@@ -59,7 +59,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/info_freebie_thumb_up"
             android:textSize="18dp"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:visibility="invisible"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -69,7 +70,8 @@
             android:layout_toStartOf="@+id/info_freebie_downvotes"
             android:adjustViewBounds="true"
             android:src="@drawable/thumbs_down"
-            android:onClick="downVote"/>
+            android:onClick="downVote"
+            android:visibility="invisible"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,7 +82,8 @@
             android:layout_below="@+id/info_freebie_date"
             android:layout_toStartOf="@+id/info_freebie_thumb_down"
             android:layout_alignBottom="@+id/info_freebie_thumb_up"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:visibility="invisible"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -89,7 +92,8 @@
             android:layout_below="@+id/info_freebie_date"
             android:layout_toStartOf="@+id/info_freebie_upvotes"
             android:src="@drawable/thumbs_up"
-            android:onClick="upVote"/>
+            android:onClick="upVote"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 

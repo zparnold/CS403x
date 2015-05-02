@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -197,9 +198,15 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
         else {
             ((TextView) findViewById(R.id.info_freebie_title)).setText("No Freebies exist at this time");
             ((TextView) findViewById(R.id.info_freebie_description)).setText("There are no freebie that are currently active. Please try again later.");
-            ((TextView) findViewById(R.id.info_freebie_upvotes)).setText("0");
-            ((TextView) findViewById(R.id.info_freebie_downvotes)).setText("0");
+            TextView tv1 = ((TextView) findViewById(R.id.info_freebie_upvotes));
+            tv1.setText("");
+            tv1.setVisibility(View.INVISIBLE);
+            TextView tv2 = ((TextView) findViewById(R.id.info_freebie_downvotes));
+            tv2.setText("");
+            tv2.setVisibility(View.INVISIBLE);
             ((TextView) findViewById(R.id.info_freebie_date)).setText(getDateAsString());
+            findViewById(R.id.info_freebie_thumb_up).setVisibility(View.INVISIBLE);
+            findViewById(R.id.info_freebie_thumb_down).setVisibility(View.INVISIBLE);
         }
 
     }
@@ -208,9 +215,15 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
         if(freebie == null) { return; }
         ((TextView) findViewById(R.id.info_freebie_title)).setText(freebie.getName());
         ((TextView) findViewById(R.id.info_freebie_description)).setText(freebie.getDescription());
-        ((TextView) findViewById(R.id.info_freebie_upvotes)).setText(Integer.toString(freebie.getUpVotes()));
-        ((TextView) findViewById(R.id.info_freebie_downvotes)).setText(Integer.toString(freebie.getDownVotes()));
+        TextView tv1 = ((TextView) findViewById(R.id.info_freebie_upvotes));
+        tv1.setText(Integer.toString(freebie.getUpVotes()));
+        tv1.setVisibility(View.VISIBLE);
+        TextView tv2 = ((TextView) findViewById(R.id.info_freebie_downvotes));
+        tv2.setText(Integer.toString(freebie.getDownVotes()));
+        tv2.setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.info_freebie_date)).setText(getDateAsString());
+        findViewById(R.id.info_freebie_thumb_up).setVisibility(View.VISIBLE);
+        findViewById(R.id.info_freebie_thumb_down).setVisibility(View.VISIBLE);
     }
 
     //upvote the currently selected
