@@ -33,7 +33,6 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private boolean firstLocationUpdate = false;
     private HashMap<Marker, Freebie> freebieMarkerMap = new HashMap<>();
-    private Freebie freebie = null; //the currently viewed freebie
 
     public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
 
@@ -54,9 +53,10 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
 
     @Override
     public void onFreebieUpdate() {
-        Toast.makeText(getApplicationContext(), String.valueOf(FreebieManager.getInstance().getFreebies().size()) + " freebies currently on your campus", Toast.LENGTH_SHORT).show();
-        // add all map markers
+
         mMap.clear();
+        freebieMarkerMap.clear();
+
         LinkedList<Freebie> freebies = (LinkedList<Freebie>) FreebieManager.getInstance().getFreebies();
         for (int i = 0; i < freebies.size(); i++) {
             Freebie currentFreebie = freebies.get(i);
@@ -122,7 +122,6 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getApplicationContext(), "yeah it works", Toast.LENGTH_SHORT).show();
                 freebie = freebieMarkerMap.get(marker);
                 updateInfoTab();
                 return true;

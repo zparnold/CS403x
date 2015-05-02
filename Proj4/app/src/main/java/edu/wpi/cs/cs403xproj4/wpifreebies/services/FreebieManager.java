@@ -69,6 +69,23 @@ public class FreebieManager {
         return freebies;
     }
 
+    public void removeFreebieByID(String id) {
+        for (int i = 0; i < freebies.size(); i++) {
+            if (freebies.get(i).get_id().equals(id)) {
+                freebies.remove(i);
+            }
+        }
+    }
+
+    public Freebie getFreebieByID(String id) {
+        for (int i = 0; i < freebies.size(); i++) {
+            Freebie current = freebies.get(i);
+            if (current.get_id().equals(id)) {
+                return current;
+            }
+        }
+    }
+
     public void refreshFreebies() {
         new GetFreebiesTask().execute(new RequestParams(FREEBIE_API_URL));
     }
@@ -91,13 +108,11 @@ public class FreebieManager {
     }
 
     public void upVote(Freebie freebie) {
-        //send the freebie to the server
-        //update the local
+        new VoteFreebieTask().execute(new RequestParams(FREEBIE_API_URL + freebie.get_id() + "/upvote"));
     }
 
     public void downVote (Freebie freebie) {
-        //send the freebie to the servre
-        //update the local
+        new VoteFreebieTask().execute(new RequestParams(FREEBIE_API_URL + freebie.get_id() + "/downvote"));
     }
 
     private Freebie parseFreebie(JSONObject jObject) {
@@ -183,6 +198,55 @@ public class FreebieManager {
         }
     }
 
+    private class VoteFreebieTask extends AsyncTask<RequestParams, Void, String> {
+        protected String doInBackground(RequestParams... params) {
+            String resp = null;
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpGet getRequest = new HttpGet(params[0].getUrl());
+                HttpResponse response = httpClient.execute(getRequest);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+                String sResponse;
+                StringBuilder s = new StringBuilder();
+                while ((sResponse = reader.readLine()) != null) {
+                    s = s.append(sResponse);
+                }
+
+                resp = s.toString();
+            } catch (Exception e) {
+                Log.e(e.getClass().getName(), e.getMessage());
+            }
+
+            return resp;
+        }
+
+        protected void onPostExecute(String result) {
+            try {
+                JSONObject successObject = new JSONObject(result);
+                if (successObject.has("success")) {
+                    JSONObject jObject = successObject.getJSONObject("success");
+                    Freebie newFreebie = parseFreebie(jObject);
+
+                    if (newFreebie != null) {
+                        removeFreebieByID(newFreebie.get_id());
+                        freebies.add(newFreebie);
+                    }
+
+                } else if (successObject.has("deleted")) {
+                    String id = successObject.getString("deleted");
+                    removeFreebieByID(id);
+                }
+
+                for (int i = 0; i < listeners.size(); i++) {
+                    listeners.get(i).onFreebieUpdate();
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, "Error: " + e.toString());
+                Log.e(TAG, result);
+            }
+        }
+    }
+
     private class CreateFreebieTask extends AsyncTask<RequestParams, Void, String> {
         protected String doInBackground(RequestParams... params) {
             String resp = null;
@@ -217,7 +281,6 @@ public class FreebieManager {
                     freebies.add(newFreebie);
                 }
 
-                initialized = true;
                 for (int i = 0; i < listeners.size(); i++) {
                     listeners.get(i).onFreebieUpdate();
                 }
