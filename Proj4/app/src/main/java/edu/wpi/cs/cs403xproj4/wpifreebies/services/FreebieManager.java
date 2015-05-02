@@ -90,6 +90,14 @@ public class FreebieManager {
         }
     }
 
+    public void upVote(Freebie freebie) {
+
+    }
+
+    public void downVote (Freebie freebie) {
+        
+    }
+
     private Freebie parseFreebie(JSONObject jObject) {
         try {
             Freebie newFreebie = new Freebie();

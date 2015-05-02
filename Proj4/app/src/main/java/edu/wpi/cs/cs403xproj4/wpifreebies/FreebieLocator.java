@@ -14,8 +14,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import edu.wpi.cs.cs403xproj4.wpifreebies.models.Freebie;
@@ -27,6 +29,8 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private boolean firstLocationUpdate = false;
+    private HashMap<Marker, Freebie> freebieMarkerMap;
+
     public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
 
     @Override
@@ -49,12 +53,14 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
         mMap.clear();
         LinkedList<Freebie> freebies = (LinkedList<Freebie>) FreebieManager.getInstance().getFreebies();
         for (int i = 0; i < freebies.size(); i++) {
-            Freebie current = freebies.get(i);
+            Freebie currentFreebie = freebies.get(i);
             MarkerOptions options = new MarkerOptions();
 
-            options.title(current.getName());
-            options.position(new LatLng(current.getLatitude(), current.getLongitude()));
-            mMap.addMarker(options);
+            options.title(currentFreebie.getName());
+            options.position(new LatLng(currentFreebie.getLatitude(), currentFreebie.getLongitude()));
+            Marker currentMarker = mMap.addMarker(options);
+
+            freebieMarkerMap.put(currentMarker, currentFreebie);
         }
     }
 
@@ -107,6 +113,12 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
      */
     protected void setUpMap() {
         mMap.setMyLocationEnabled(true);
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Freebie freebie = freebieMarkerMap.get(marker);
+            }
+        });
         // Getting LocationManager object from System Service LOCATION_SERVICE
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
