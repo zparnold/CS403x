@@ -152,7 +152,14 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
     }
 
     @Override
-    public void onProviderDisabled(String s) {
+    public void onProviderDisabled(String s) {}
+
+    //upvote the currently selected
+    public void upVote(View view) {
+
+    }
+    //downvote the currently selected
+    public void downVote(View view) {
 
     }
 }

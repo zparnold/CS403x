@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/map"
         tools:context=".FreebieLocator"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_weight="8"/>
 
     <RelativeLayout
@@ -67,7 +68,8 @@
             android:layout_alignTop="@+id/info_freebie_downvotes"
             android:layout_toStartOf="@+id/info_freebie_downvotes"
             android:adjustViewBounds="true"
-            android:src="@drawable/thumbs_down"/>
+            android:src="@drawable/thumbs_down"
+            android:onClick="downVote"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -86,7 +88,8 @@
             android:id="@+id/info_freebie_thumb_up"
             android:layout_below="@+id/info_freebie_date"
             android:layout_toStartOf="@+id/info_freebie_upvotes"
-            android:src="@drawable/thumbs_up"/>
+            android:src="@drawable/thumbs_up"
+            android:onClick="upVote"/>
 
     </RelativeLayout>
 
