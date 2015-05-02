@@ -29,7 +29,7 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private boolean firstLocationUpdate = false;
-    private HashMap<Marker, Freebie> freebieMarkerMap;
+    private HashMap<Marker, Freebie> freebieMarkerMap = new HashMap<>();
 
     public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
 
@@ -113,10 +113,12 @@ public class FreebieLocator extends FragmentActivity implements FreebieListener,
      */
     protected void setUpMap() {
         mMap.setMyLocationEnabled(true);
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker) {
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(getApplicationContext(), "yeah it works", Toast.LENGTH_SHORT).show();
                 Freebie freebie = freebieMarkerMap.get(marker);
+                return true;
             }
         });
         // Getting LocationManager object from System Service LOCATION_SERVICE

@@ -95,7 +95,7 @@ public class FreebieManager {
     }
 
     public void downVote (Freebie freebie) {
-        
+
     }
 
     private Freebie parseFreebie(JSONObject jObject) {
