@@ -22,6 +22,7 @@ import java.net.URL;
 import java.util.Date;
 import edu.wpi.cs.cs403xproj4.wpifreebies.models.Category;
 import edu.wpi.cs.cs403xproj4.wpifreebies.models.Freebie;
+import edu.wpi.cs.cs403xproj4.wpifreebies.services.FreebieManager;
 
 
 public class CreateFreebie extends Activity {
@@ -88,7 +89,6 @@ public class CreateFreebie extends Activity {
             description = descText.getText().toString();
             categoryString = spinner.getSelectedItem().toString();
 
-
             switch (categoryString){
                 case "Food":
                     color = "RED";
@@ -102,14 +102,12 @@ public class CreateFreebie extends Activity {
                 default:
                     break;
             }
-            category = new Category(categoryString,color);
 
             // Getting LocationManager object from System Service LOCATION_SERVICE
             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
             // Creating a criteria object to retrieve provider
             Criteria criteria = new Criteria();
-
             // Getting the name of the best provider
             String provider = locationManager.getBestProvider(criteria, true);
             // Getting Current Location
@@ -118,78 +116,10 @@ public class CreateFreebie extends Activity {
             lat = location.getLatitude();
             lng = location.getLongitude();
 
-            final Freebie mFreebie = new Freebie(name,description,when,lng,lat,0,0,category);
-
-            //Body of your click handler
-            Thread thread = new Thread(new Runnable(){
-                @Override
-                public void run(){
-                    //code to do the HTTP request
-                    sendFreebieToServer(mFreebie);
-                    //TODO add smarter handling of errors
-                }
-            });
-            thread.start();
+            final Freebie mFreebie = new Freebie(name,description,lat,lng,color);
+            FreebieManager.getInstance().addFreebie(mFreebie);
         }
 
         finish();
-    }
-
-    private void sendFreebieToServer(Freebie mFreebie){
-        //TODO finish method
-        String url = "http://cs403x-final-host.herokuapp.com/api/freebies";
-        URL obj = null;
-        try {
-            obj = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        HttpURLConnection con = null;
-        try {
-            con = (HttpURLConnection) obj.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //add request header
-        try {
-            con.setRequestMethod("POST");
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        }
-        con.setRequestProperty("Content-Type","application/json");
-        con.setRequestProperty("Accept", "application/json");
-        try {
-            con.connect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String urlParameters = mFreebie.toJSON();
-
-        // Send post request
-        con.setDoOutput(true);
-        DataOutputStream wr = null;
-        try {
-            wr = new DataOutputStream(con.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            wr.writeBytes(urlParameters);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            wr.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            wr.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 }

@@ -14,6 +14,7 @@ public class Freebie {
     double longitude;
     int upVotes;
     int downVotes;
+    String color;
 
     public Freebie() {
         _id = "";
@@ -24,18 +25,20 @@ public class Freebie {
         longitude = 0.0;
         int upVotes = 0;
         int downVotes = 0;
+        color = "RED";
     }
 
-    public Freebie(String name, String description, Double latitude, Double longitude) {
+    public Freebie(String name, String description, Double latitude, Double longitude, String color) {
         this._id = "";
         this.name = name;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.color = color;
     }
 
     public Freebie(String _id, String name, String description, Date postDate, Double latitude,
-                   Double longitude, int upVotes, int downVotes) {
+                   Double longitude, int upVotes, int downVotes, String color) {
         this._id = _id;
         this.name = name;
         this.description = description;
@@ -105,6 +108,10 @@ public class Freebie {
     public void setDownVotes(int downVotes) {
         this.downVotes = downVotes;
     }
+
+    public String getColor() { return color; }
+
+    public void setColor(String color) { this.color = color; }
 
     public String toJSON(){
         String retString = "";

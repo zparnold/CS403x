@@ -40,7 +40,7 @@ import edu.wpi.cs.cs403xproj4.wpifreebies.models.Freebie;
  */
 public class FreebieManager {
     private final static String TAG = "FREEBIES/Freebies";
-    private final static String CATEGORY_API_URL = "http://cs403x-final-host.herokuapp.com/api/freebies/";
+    private final static String FREEBIE_API_URL = "http://cs403x-final-host.herokuapp.com/api/freebies/";
 
     private boolean initialized = false;
     LinkedList<FreebieListener> listeners = new LinkedList<>();
@@ -49,7 +49,7 @@ public class FreebieManager {
     private final static FreebieManager manager = new FreebieManager();
 
     public FreebieManager() {
-        new GetFreebiesTask().execute(new RequestParams(CATEGORY_API_URL));
+        new GetFreebiesTask().execute(new RequestParams(FREEBIE_API_URL));
     }
 
     public static FreebieManager getInstance() {
@@ -60,6 +60,7 @@ public class FreebieManager {
         listeners.add(listener);
     }
 
+
     public boolean isInitialized() {
         return initialized;
     }
@@ -69,7 +70,7 @@ public class FreebieManager {
     }
 
     public void refreshFreebies() {
-        new GetFreebiesTask().execute(new RequestParams(CATEGORY_API_URL));
+        new GetFreebiesTask().execute(new RequestParams(FREEBIE_API_URL));
     }
 
     public void addFreebie(Freebie freebie) {
@@ -79,12 +80,51 @@ public class FreebieManager {
                     new BasicNameValuePair("description", freebie.getDescription()),
                     new BasicNameValuePair("latitude", String.valueOf(freebie.getLatitude())),
                     new BasicNameValuePair("longitude", String.valueOf(freebie.getLongitude())),
+                    new BasicNameValuePair("color", freebie.getColor())
             };
             UrlEncodedFormEntity reqEntity = new UrlEncodedFormEntity(Arrays.asList(params));
 
-            new CreateFreebieTask().execute(new RequestParams(CATEGORY_API_URL, reqEntity));
+            new CreateFreebieTask().execute(new RequestParams(FREEBIE_API_URL, reqEntity));
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
+        }
+    }
+
+    private Freebie parseFreebie(JSONObject jObject) {
+        try {
+            Freebie newFreebie = new Freebie();
+
+            newFreebie.set_id(jObject.getString("_id"));
+            newFreebie.setName(jObject.getString("name"));
+
+            if (jObject.has("description")) {
+                newFreebie.setDescription(jObject.getString("description"));
+            }
+
+            if (jObject.has("color")) {
+                newFreebie.setColor(jObject.getString("color"));
+            }
+
+            newFreebie.setUpVotes(jObject.getInt("upVotes"));
+            newFreebie.setDownVotes(jObject.getInt("downVotes"));
+            newFreebie.setLatitude(jObject.getDouble("latitude"));
+            newFreebie.setLongitude(jObject.getDouble("longitude"));
+
+            String postDate = jObject.getString("postDate");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            try {
+                Date date = format.parse(postDate);
+                newFreebie.setPostDate(date);
+            } catch (ParseException e) {
+                Log.e(TAG, "Could not parse date");
+            }
+
+            return newFreebie;
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+            return null;
         }
     }
 
@@ -116,32 +156,11 @@ public class FreebieManager {
                 for (int i=0; i < jArray.length(); i++) {
 
                     JSONObject jObject = jArray.getJSONObject(i);
-                    Freebie newFreebie = new Freebie();
+                    Freebie newFreebie = parseFreebie(jObject);
 
-                    newFreebie.set_id(jObject.getString("_id"));
-                    newFreebie.setName(jObject.getString("name"));
-
-                    if (jObject.has("description")) {
-                        newFreebie.setDescription(jObject.getString("description"));
+                    if (newFreebie != null) {
+                        freebies.add(newFreebie);
                     }
-
-                    newFreebie.setUpVotes(jObject.getInt("upVotes"));
-                    newFreebie.setDownVotes(jObject.getInt("downVotes"));
-                    newFreebie.setLatitude(jObject.getDouble("latitude"));
-                    newFreebie.setLongitude(jObject.getDouble("longitude"));
-
-                    String postDate = jObject.getString("postDate");
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-                    format.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-                    try {
-                        Date date = format.parse(postDate);
-                        newFreebie.setPostDate(date);
-                    } catch (ParseException e) {
-                        Log.e(TAG, "Could not parse date");
-                    }
-
-                    freebies.add(newFreebie);
                 }
 
                 initialized = true;
@@ -182,32 +201,11 @@ public class FreebieManager {
             try {
                 JSONObject successObject = new JSONObject(result);
                 JSONObject jObject = successObject.getJSONObject("success");
-                Freebie newFreebie = new Freebie();
+                Freebie newFreebie = parseFreebie(jObject);
 
-                newFreebie.set_id(jObject.getString("_id"));
-                newFreebie.setName(jObject.getString("name"));
-
-                if (jObject.has("description")) {
-                    newFreebie.setDescription(jObject.getString("description"));
+                if (newFreebie != null) {
+                    freebies.add(newFreebie);
                 }
-
-                newFreebie.setUpVotes(jObject.getInt("upVotes"));
-                newFreebie.setDownVotes(jObject.getInt("downVotes"));
-                newFreebie.setLatitude(jObject.getDouble("latitude"));
-                newFreebie.setLongitude(jObject.getDouble("longitude"));
-
-                String postDate = jObject.getString("postDate");
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-                format.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-                try {
-                    Date date = format.parse(postDate);
-                    newFreebie.setPostDate(date);
-                } catch (ParseException e) {
-                    Log.e(TAG, "Could not parse date");
-                }
-
-                freebies.add(newFreebie);
 
                 initialized = true;
                 for (int i = 0; i < listeners.size(); i++) {
