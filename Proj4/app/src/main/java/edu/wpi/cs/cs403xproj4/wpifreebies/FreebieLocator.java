@@ -8,16 +8,21 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.Locale;
+import javax.xml.datatype.Duration;
 
-public class FreebieLocator extends FragmentActivity implements LocationListener{
+import edu.wpi.cs.cs403xproj4.wpifreebies.models.Freebie;
+import edu.wpi.cs.cs403xproj4.wpifreebies.services.FreebieListener;
+import edu.wpi.cs.cs403xproj4.wpifreebies.services.FreebieManager;
+
+public class FreebieLocator extends FragmentActivity implements FreebieListener, LocationListener {
+    private static final String TAG = "WPIFreebiesMain";
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     public final static String EXTRA_MESSAGE = "edu.wpi.cs.cs403xproj4.MESSAGE";
@@ -26,13 +31,26 @@ public class FreebieLocator extends FragmentActivity implements LocationListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_freebie_locator);
-        setUpMapIfNeeded();
+        FreebieManager.getInstance().addListener(this);
+
+        FreebieManager.getInstance().addFreebie(new Freebie("test from phone", "test", 40.0, 40.0));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onFreebieUpdate() {
+        Toast.makeText(getApplicationContext(), String.valueOf(FreebieManager.getInstance().getFreebies().size()), Toast.LENGTH_SHORT).show();
+        // add all map markers
     }
 
     /**

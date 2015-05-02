@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by Tyler on 4/24/2015.
  */
 public class Freebie {
+    String _id;
     String name;
     String description;
     Date postDate;
@@ -13,12 +14,29 @@ public class Freebie {
     double longitude;
     int upVotes;
     int downVotes;
-    Category category;
 
-    public Freebie() { }
+    public Freebie() {
+        _id = "";
+        name = "";
+        description = "";
+        Date postDate = new Date();
+        latitude = 0.0;
+        longitude = 0.0;
+        int upVotes = 0;
+        int downVotes = 0;
+    }
 
-    public Freebie(String name, String description, Date postDate, double latitude, double longitude,
-                   int upVotes, int downVotes, Category category) {
+    public Freebie(String name, String description, Double latitude, Double longitude) {
+        this._id = "";
+        this.name = name;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Freebie(String _id, String name, String description, Date postDate, Double latitude,
+                   Double longitude, int upVotes, int downVotes) {
+        this._id = _id;
         this.name = name;
         this.description = description;
         this.postDate = postDate;
@@ -26,8 +44,11 @@ public class Freebie {
         this.longitude = longitude;
         this.upVotes = upVotes;
         this.downVotes = downVotes;
-        this.category = category;
     }
+
+    public String get_id() { return _id; }
+
+    public void set_id(String _id) { this._id = _id; }
 
     public String getName() {
         return name;
@@ -57,7 +78,7 @@ public class Freebie {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
@@ -65,7 +86,7 @@ public class Freebie {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -85,14 +106,6 @@ public class Freebie {
         this.downVotes = downVotes;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public String toJSON(){
         String retString = "";
         retString += "{\"name\":\""+this.name+"\",";
@@ -102,7 +115,6 @@ public class Freebie {
         retString += "\"longitude\":\""+Double.toString(this.longitude)+"\",";
         retString += "\"upVotes\":\""+Integer.toString(this.upVotes)+"\",";
         retString += "\"downVotes\":\""+Integer.toString(this.downVotes)+"\",";
-        retString += "\"category\":"+this.category.toJSON()+"}";
         return retString;
     }
 }
